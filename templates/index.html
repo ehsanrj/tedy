@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TED Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link 
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" 
+rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #111827; /* bg-gray-900 */
+        }
+    </style>
+</head>
+<body class="h-full flex items-center justify-center text-white p-4">
+    <div class="w-full max-w-2xl mx-auto">
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl 
+shadow-2xl p-6 sm:p-8 text-center">
+            
+            <!-- Header -->
+            <h1 class="text-3xl sm:text-4xl font-bold text-red-500">TED 
+Talk Downloader</h1>
+            <p class="text-gray-400 mt-2 mb-8">Paste the URL of a TED talk 
+to get the direct download link.</p>
+
+            <!-- Form -->
+            <form action="/" method="POST" class="space-y-4">
+                <input type="url" name="url" 
+placeholder="https://www.ted.com/talks/..." required
+                       class="w-full px-4 py-3 bg-gray-900 border 
+border-gray-600 rounded-lg text-white placeholder-gray-500 
+focus:outline-none focus:ring-2 focus:ring-red-500 transition 
+duration-200">
+                <button type="submit"
+                        class="w-full bg-red-600 hover:bg-red-700 
+text-white font-bold py-3 px-4 rounded-lg transition duration-300 
+ease-in-out transform hover:scale-105">
+                    Get Download Link
+                </button>
+            </form>
+
+            <!-- Flashed Messages & Results -->
+            <div class="mt-6 text-left">
+                {% with messages = 
+get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="p-4 rounded-lg 
+                                {% if category == 'error' %}bg-red-900 
+border border-red-700 text-red-300
+                                {% elif category == 'info' %}bg-blue-900 
+border border-blue-700 text-blue-300
+                                {% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% if video_url %}
+                <div class="mt-4 p-4 rounded-lg bg-green-900 border 
+border-green-700 text-green-300">
+                    <h3 class="font-bold text-lg mb-2 text-white">Success! 
+Video Found.</h3>
+                    <p class="mb-4">Click the button below to download 
+your video.</p>
+                    <a href="{{ video_url }}" download
+                       class="inline-block w-full text-center bg-green-600 
+hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition 
+duration-300">
+                        Download Video (High Quality)
+                    </a>
+                    <p class="text-xs text-gray-400 mt-3">Original URL: {{ 
+original_url }}</p>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
